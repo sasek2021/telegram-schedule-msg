@@ -84,14 +84,16 @@ async def schedule_message(client, send_time, group_id, message, media=None):
     """
     try:
         now = datetime.now()
-        send_time_obj = datetime.strptime(send_time, "%Y-%m-%d %H:%M:%S")
-        delay = (send_time_obj - now).total_seconds()
+        formatted_now = now.strftime("%Y-%m-%d %H:%M")
+        send_time_obj = datetime.strptime(send_time, "%Y-%m-%d %H:%M")
+        # delay = (send_time_obj - now).total_seconds()
 
-        if delay > 0:
-            print(f"Waiting {delay:.2f} seconds to send the message at {send_time}...")
-            await asyncio.sleep(delay)
-
-        await send_message(client, group_id, message, media)
+        # if delay > 0:
+        #     print(f"Waiting {delay:.2f} seconds to send the message at {send_time}...")
+        #     await asyncio.sleep(delay)
+        # print(f"formatted_now == send_time", formatted_now , send_time)
+        if formatted_now == send_time:
+            await send_message(client, group_id, message, media)
     except ValueError:
         print(f"Invalid send_time format: {send_time}. Use '%Y-%m-%d %H:%M:%S'.")
     except Exception as e:
